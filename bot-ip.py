@@ -3,7 +3,7 @@ import time
 import os
 
 # --- CONFIGURACIÓN ---
-WEBHOOK_URL = "https://discordapp.com/api/webhooks/1564634947074134028/F5cU6OLuzz_X_7e2SGk5knB6LcKzrqaKjl4i5ZOGse_pvdXCzNw8Nz9S_9f2ojBID7nA"
+WEBHOOK_URL = "PEGA_AQUI_TU_URL_DE_WEBHOOK"
 INTERVALO_SEGUNDOS = 300  # Revisar cada 5 minutos
 ARCHIVO_ULTIMA_IP = "ultima_ip.txt"
 # ---------------------
