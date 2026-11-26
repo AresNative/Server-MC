@@ -332,3 +332,99 @@ Todo se validó por código (JSON correctos, tamaños de `fill`, funciones enlaz
 | Apuestas «desactivadas» | Falta el diagnóstico | `apuestas/diagnostico` y luego `activar`. |
 | El tablero no se ve | Barra lateral oculta | `/function desmadre:tablero/mostrar`. |
 | Lag al construir | Muchos comandos a la vez | Hacerlo con pocos jugadores conectados. |
+
+
+# Mercaderes de Mejoras y Cocina Pokémon
+
+Agregué los dos mercaderes nuevos a `desmadre_economia.zip`, con sus tiendas, sus puestos en el mercado y un comando para generar cada mercader donde estés.
+
+Falta una cosa: los ítems de **Only Bottle Caps** no los pude incluir. No encontré una fuente con sus IDs, y un ID inventado impide que el servidor arranque. El resto de IDs los verifiqué contra el código de Cobblemon 1.8.3, casi tu versión (1.8.4).
+
+## 1. Mercader de Mejoras Pokémon (`cobbledollars:entrenamiento`)
+
+| Categoría | Contenido |
+|---|---|
+| **Vitaminas** (8) | HP Up, Protein, Iron, Calcium, Zinc, Carbos, PP Up y PP Max |
+| **Mentas** (21) | Todas las naturalezas |
+| **Caramelos** (12) | Los de experiencia, Rare Candy y los de estadística (Health, Mighty, Tough, Smart, Courage, Quick) |
+| **Medicinas** (20) | Pociones, curas de estado, Revive, Éteres, Elixires, Heal Powder, Energy Root y más |
+| **Habilidad** (2) | Cápsula y Parche de habilidad |
+
+## 2. Mercader de Cocina Pokémon (`cobbledollars:cocina`)
+
+| Categoría | Contenido |
+|---|---|
+| **Cañas** (49) | Una caña por cada Poké Ball, más la plantilla de herrería. Su precio es el de la bola ×1,5 más 3 000 |
+| **Cebos** (2) | Poke Bait y Sweet Heart |
+| **Comidas** (25) | Poke Puff, mochis, caramelos dulces, galleta de lava, guisos, sándwich, curry, té y más |
+| **Tartas** (2) | Poke Cake y Old Gateau |
+| **Bayas** (70) | Todas las bayas del mod |
+| **Vallas** (4) | Vallas y puertas de apricorn y saccharine |
+| **Madera Poké** (23) | Tablones, troncos, losas, escaleras, puertas y hojas de ambas maderas |
+
+Todo lo que venden entra también al banco al mismo precio de compra, así que el banco tiene ahora **800 entradas**.
+
+## 3. Qué falta: Only Bottle Caps
+
+La descripción del mod solo dice que añade Bottle Caps de plata, de oro, una por estadística y versiones "withered".
+
+Para añadirlas sin riesgo, dime sus IDs de una de estas dos formas:
+
+- Escribe en el juego `/give @s obc:` y pulsa Tab, y pégame la lista.
+- O súbeme el archivo `Only Bottle Caps-1.5.0-neoforge.jar` (pesa unos 50 KB) y los saco yo.
+
+Con eso las pondré como categoría **Bottle Caps** en el mercader de Mejoras.
+
+## 4. Dónde están
+
+Reemplacé dos puestos decorativos del lado este por funcionales: **Mejoras Pokémon** y **Cocina Pokémon**.
+
+Para un mercado ya construido, ejecuta con las coordenadas de la columna noroeste:
+
+```mcfunction
+/execute positioned X Y Z run function desmadre:agregar_mercaderes2
+```
+
+Como los anteriores, se respawnean con la placa dorada del banco.
+
+## 5. Comandos para generar cada mercader en tu posición
+
+Aparecen donde estés parado, ya **congelados, invulnerables y con la profesión de mercader**:
+
+```mcfunction
+/function desmadre:generar/banquero
+/function desmadre:generar/mercado
+/function desmadre:generar/equipo
+/function desmadre:generar/formas
+/function desmadre:generar/mejoras
+/function desmadre:generar/cocina
+```
+
+La profesión que les pongo es `cobbledollars:cobble_merchant`. Es la que deduje de tu captura (se veía en el cartel), pero no pude confirmarla.
+
+Después de generar uno, haz clic derecho. Si no abre el menú de mercader, lee la profesión del aldeano que sí funciona con:
+
+```mcfunction
+/data get entity @e[type=villager,tag=banquero,limit=1] VillagerData
+```
+
+Y dime qué profesión sale.
+
+## 6. Asignar sus tiendas
+
+Estos generadores no asignan la tienda, y por eso hay que hacerlo con `/cm edit`:
+
+```mcfunction
+/cm edit @e[type=villager,tag=mejoras,limit=1] set shop cobbledollars:entrenamiento
+/cm edit @e[type=villager,tag=mejoras,limit=1] set bank cobbledollars:default
+/cm edit @e[type=villager,tag=cocina,limit=1] set shop cobbledollars:cocina
+/cm edit @e[type=villager,tag=cocina,limit=1] set bank cobbledollars:default
+```
+
+## 7. Instalación
+
+1. Copia el ZIP a `world/datapacks/`.
+2. Ejecuta `/reload`.
+3. **Reinicia el mundo o el servidor** para que carguen las tiendas y el banco nuevos.
+
+Si el servidor no arranca y el log menciona `"Unknown registry key"`, pégame la línea y la corrijo.
