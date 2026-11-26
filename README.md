@@ -228,6 +228,17 @@ La temporada dura `#rot_period` ticks (72.000 = 1 h). Al cambiar se avisa en el 
 | `/scoreboard players set #rot_period dm_cfg 72000` | Duración de la temporada. |
 | `/scoreboard players set #ciclo_p dm_cfg 600` | Cada cuántos ticks revisa el ciclo. |
 
+**NPC creados a mano:** la rotación solo reemplaza a los NPC que están junto a un marcador de aparición. Un NPC creado con `/spawnnpc` no tiene marcador, así que no rotaba. Ahora:
+
+| Comando | Qué hace |
+|---|---|
+| `/function desmadre:npc/colocar {clase:"veterano"}` | Crea un punto de aparición donde estás parado y hace aparecer al NPC; desde ahí rota por temporadas y reaparece solo. Clases base: `veterano`, `elite`, `campeon`, `jefe`, `col_red`, `col_blue`, `col_lance`, `col_steven`, `col_cynthia`, `col_wallace`, `col_iris`, `col_leon`, `col_diantha`. |
+| `/function desmadre:npc/quitar` | Quita el punto de aparición más cercano (a menos de 4 bloques) y su NPC. |
+| `/function desmadre:npc/adoptar` | Registra como punto de aparición a cada NPC nuestro sin marcador cerca; también corre solo en cada ciclo. Lee la clase del NBT `NPCClass`. |
+| `/function desmadre:npc/ver_nbt` | Muestra los datos del NPC más cercano, para comprobar la clave de la clase. |
+
+La adopción automática depende de que Cobblemon guarde la clase en `NPCClass`; no está confirmado. Si un NPC manual no rota, elimínalo (`/kill @e[type=cobblemon:npc,distance=..5]`) y colócalo con `npc/colocar`. Un NPC con jugadores a menos de 40 bloques espera a que se alejen antes de cambiar de equipo.
+
 ### 3.13 Apuestas
 El jugador apuesta CobbleDollars a que derrota a una clase. Si gana cobra apuesta × porcentaje; si pierde, la casa se la queda. Las del coliseo cuentan como Campeón (los 8) y Jefe (Red).
 
